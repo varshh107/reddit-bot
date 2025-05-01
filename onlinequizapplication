@@ -1,0 +1,90 @@
+import java.util.Scanner;
+
+public class QuizGame {
+    
+    // Question class to hold question data
+    static class Question {
+        String questionText;
+        String[] options;
+        int correctAnswer;
+        
+        public Question(String questionText, String[] options, int correctAnswer) {
+            this.questionText = questionText;
+            this.options = options;
+            this.correctAnswer = correctAnswer;
+        }
+    }
+    
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        // Initialize quiz questions
+        Question[] questions = {
+            new Question("What is the capital of France?", 
+                        new String[]{"A. London", "B. Paris", "C. Berlin", "D. Madrid"}, 1),
+            new Question("Which planet is known as the Red Planet?", 
+                        new String[]{"A. Venus", "B. Mars", "C. Jupiter", "D. Saturn"}, 1),
+            new Question("What is the largest mammal?", 
+                        new String[]{"A. Elephant", "B. Blue Whale", "C. Giraffe", "D. Polar Bear"}, 1),
+            new Question("Which language is used primarily for Android development?", 
+                        new String[]{"A. Swift", "B. Java", "C. Python", "D. C++"}, 1),
+            new Question("What is the chemical symbol for gold?", 
+                        new String[]{"A. Go", "B. Au", "C. Ag", "D. Gd"}, 1)
+        };
+        
+        int score = 0;
+        
+        System.out.println("Welcome to the Quiz Game!");
+        System.out.println("You will be asked " + questions.length + " questions.");
+        System.out.println("For each question, enter the number of your answer (1-4).\n");
+        
+        // Ask each question
+        for (int i = 0; i < questions.length; i++) {
+            Question currentQuestion = questions[i];
+            
+            System.out.println("Question " + (i + 1) + ": " + currentQuestion.questionText);
+            for (String option : currentQuestion.options) {
+                System.out.println(option);
+            }
+            
+            System.out.print("Your answer (1-4): ");
+            int userAnswer = scanner.nextInt();
+            
+            // Validate input
+            while (userAnswer < 1 || userAnswer > 4) {
+                System.out.println("Invalid input. Please enter a number between 1 and 4.");
+                System.out.print("Your answer (1-4): ");
+                userAnswer = scanner.nextInt();
+            }
+            
+            // Check if answer is correct
+            if (userAnswer - 1 == currentQuestion.correctAnswer) {
+                System.out.println("Correct!\n");
+                score++;
+            } else {
+                System.out.println("Incorrect! The correct answer was: " + 
+                                  currentQuestion.options[currentQuestion.correctAnswer] + "\n");
+            }
+        }
+        
+        // Display final results
+        System.out.println("Quiz complete!");
+        System.out.println("Your final score: " + score + " out of " + questions.length);
+        
+        double percentage = (double) score / questions.length * 100;
+        System.out.printf("Percentage: %.1f%%\n", percentage);
+        
+        // Provide feedback based on score
+        if (percentage >= 80) {
+            System.out.println("Excellent work!");
+        } else if (percentage >= 60) {
+            System.out.println("Good job!");
+        } else if (percentage >= 40) {
+            System.out.println("Not bad, keep practicing!");
+        } else {
+            System.out.println("You might want to study more.");
+        }
+        
+        scanner.close();
+    }
+}
